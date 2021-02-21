@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Groupable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Recipe $recipe
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Group[] $groups
+ * @property-read int|null $groups_count
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeStep newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeStep newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeStep query()
@@ -29,7 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class RecipeStep extends Model
 {
-    use HasFactory;
+    use HasFactory, Groupable;
 
     /**
      * @inheritdoc

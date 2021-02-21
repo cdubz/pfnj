@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\IngredientAmount[] $ingredientAmounts
  * @property-read int|null $ingredient_amounts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeStep[] $recipeSteps
+ * @property-read int|null $recipe_steps_count
  * @method static \Illuminate\Database\Eloquent\Builder|Group newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Group newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Group query()
@@ -26,7 +28,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Group whereWeight($value)
  * @mixin \Eloquent
  */
-class Group extends Model
+final class Group extends Model
 {
     use HasFactory;
 
@@ -46,9 +48,16 @@ class Group extends Model
     ];
 
     /**
-     * Get all ingredient amount entries in a group.
+     * Get all ingredient amounts in a group.
      */
     public function ingredientAmounts(): MorphToMany {
         return $this->morphedByMany(IngredientAmount::class, 'groupable');
+    }
+
+    /**
+     * Get all recipe steps in a group.
+     */
+    public function recipeSteps(): MorphToMany {
+        return $this->morphedByMany(RecipeStep::class, 'groupable');
     }
 }
