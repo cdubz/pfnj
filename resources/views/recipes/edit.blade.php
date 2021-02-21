@@ -78,13 +78,21 @@
                             @empty
                                 @include('recipes.partials.ingredient-input')
                             @endforelse
-                            <div class="entry-template hidden">
+                            <div class="template ingredient-template hidden">
                                 @include('recipes.partials.ingredient-input')
                             </div>
-                            <x-inputs.icon-button type="button" color="green" x-on:click="addEntryNode($el);">
+                            <div class="template heading-template hidden">
+                                @include('recipes.partials.heading-input')
+                            </div>
+                            <x-inputs.icon-button type="button" color="green" x-on:click="cloneTemplate($el, 'ingredient');">
                                 <svg class="h-10 w-10 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                                </svg>
+                                </svg> Ingredient
+                            </x-inputs.icon-button>
+                            <x-inputs.icon-button type="button" color="green" x-on:click="cloneTemplate($el, 'heading');">
+                                <svg class="h-10 w-10 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                                </svg> Heading
                             </x-inputs.icon-button>
                         </div>
 
@@ -96,13 +104,21 @@
                             @empty
                                 @include('recipes.partials.step-input')
                             @endforelse
-                            <div class="entry-template hidden">
+                            <div class="template step-template hidden">
                                 @include('recipes.partials.step-input')
                             </div>
-                            <x-inputs.icon-button type="button" color="green" x-on:click="addEntryNode($el);">
+                            <div class="template heading-template hidden">
+                                @include('recipes.partials.heading-input')
+                            </div>
+                            <x-inputs.icon-button type="button" color="green" x-on:click="cloneTemplate($el, 'step');">
                                 <svg class="h-10 w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                                </svg>
+                                </svg> Step
+                            </x-inputs.icon-button>
+                            <x-inputs.icon-button type="button" color="green" x-on:click="cloneTemplate($el, 'heading');">
+                                <svg class="h-10 w-10 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                                </svg> Heading
                             </x-inputs.icon-button>
                         </div>
 
@@ -122,7 +138,7 @@
             <script src="{{ asset('js/recipes/edit.js') }}"></script>
             <script type="text/javascript">
                 new Draggable.Sortable(document.querySelector('.ingredients'), {
-                    draggable: '.ingredient',
+                    draggable: '.draggable',
                     handle: '.draggable-handle',
                     mirror: {
                         appendTo: '.ingredients',
@@ -131,7 +147,7 @@
                 })
 
                 new Draggable.Sortable(document.querySelector('.steps'), {
-                    draggable: '.step',
+                    draggable: '.draggable',
                     handle: '.draggable-handle',
                     mirror: {
                         appendTo: '.steps',
@@ -143,11 +159,12 @@
                 /**
                  * Adds a set of entry form fields from the template.
                  *
-                 * @param {object} $el Entry lines parent element.
+                 * @param {object} $el Entry parent element.
+                 * @param {string} type Entry type.
                  */
-                let addEntryNode = ($el) => {
+                let cloneTemplate = ($el, type) => {
                     // Create clone of template entry.
-                    let template = $el.querySelector(':scope .entry-template');
+                    let template = $el.querySelector(`:scope .${type}-template`);
                     let newEntry = template.cloneNode(true).firstElementChild;
 
                     // Insert new entry before add button.
@@ -158,7 +175,7 @@
                  * Removes any hidden templates before form submit.
                  */
                 let removeTemplates = () => {
-                    document.querySelector(':scope .entry-template').remove();
+                    document.querySelector(':scope .template').remove();
                 }
             </script>
         @endpush
