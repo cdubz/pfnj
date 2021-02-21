@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Groupable;
 use App\Support\Number;
 use App\Support\Nutrients;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,10 +44,12 @@ use Illuminate\Support\Pluralizer;
  * @mixin \Eloquent
  * @property-read string|null $unit_formatted
  * @property-read string $nutrients_summary
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Group[] $groups
+ * @property-read int|null $groups_count
  */
 final class IngredientAmount extends Model
 {
-    use HasFactory;
+    use HasFactory, Groupable;
 
     /**
      * @inheritdoc
